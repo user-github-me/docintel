@@ -27,8 +27,8 @@ Use this outline to record a voice-over version, for example with Loom or QuickT
 7. **Cross-verification (45 s).** Compare the invoice PDF batch with the Excel register. Show the amount mismatches, the invoice missing from the register, and the extra row.
 8. **Quality evidence (60 s).** Show `docs/EVALUATION.md`:
    - success and failure rates, and the field accuracy for rules-only vs hybrid;
-   - the held-out templates and the 0.6% hallucination rate;
-   - that every invoice with a wrong value was routed to review;
+   - the held-out templates, and the hallucination rate (0.3% hybrid, 0.6% rules-only);
+   - that 96.2% of invoices with a wrong value were routed to review in hybrid mode (100% rules-only), and the one that slipped through (a lost umlaut, because OCR only has English language data);
    - latency and throughput.
 
    Mention the honest caveats: the data is synthetic, and heavy scans are the hardest case.
