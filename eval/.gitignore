@@ -1,0 +1,8 @@
+/data/
+/data-small/
+/data-perf/
+/cache/
+.venv/
+__pycache__/
+*.pyc
+_preview/

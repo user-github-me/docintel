@@ -1,0 +1,19 @@
+[project]
+name = "docintel-eval"
+version = "0.1.0"
+description = "Synthetic labeled invoice dataset generator and evaluation tooling for DocIntel"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "reportlab>=4.2",
+    "faker>=30.0",
+    "pillow>=10.4",
+    "numpy>=2.0",
+    "openpyxl>=3.1",
+    "xlwt>=1.3.0",
+    "pymupdf>=1.24",
+    "xlrd>=2.0.2",
+    "httpx>=0.28.1",
+]
+
+[tool.uv]
+package = false

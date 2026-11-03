@@ -1,0 +1,706 @@
+[
+  {
+    "doc_id": "invoice_digital",
+    "file": "invoice_digital.pdf",
+    "file_type": "pdf",
+    "category": "pdf_digital",
+    "template": "T1",
+    "split": "dev",
+    "degradation": null,
+    "expect_failure": false,
+    "expected_error": null,
+    "invoices": [
+      {
+        "invoice_number": "INV-2026-1493",
+        "invoice_date": "2026-07-14",
+        "due_date": "2026-08-28",
+        "supplier_name": "Clearview Networks Pty Ltd",
+        "customer_name": "Maplewood Freight Pty. Ltd.",
+        "currency": "AUD",
+        "subtotal": "4217.85",
+        "tax": "421.79",
+        "discount": null,
+        "shipping": null,
+        "total": "4639.64",
+        "line_items": [
+          {
+            "description": "On-site IT support",
+            "quantity": "16",
+            "unit_price": "130.18",
+            "amount": "2082.88"
+          },
+          {
+            "description": "Website maintenance retainer",
+            "quantity": "4",
+            "unit_price": "350.99",
+            "amount": "1403.96"
+          },
+          {
+            "description": "Backup storage 1 TB",
+            "quantity": "18",
+            "unit_price": "39.23",
+            "amount": "706.14"
+          },
+          {
+            "description": "Domain registration (1 year)",
+            "quantity": "1",
+            "unit_price": "24.87",
+            "amount": "24.87"
+          }
+        ],
+        "pages": [
+          1
+        ],
+        "sheet": null,
+        "row": null,
+        "anomalies": []
+      }
+    ]
+  },
+  {
+    "doc_id": "invoice_scanned",
+    "file": "invoice_scanned.png",
+    "file_type": "image",
+    "category": "image",
+    "template": "T2",
+    "split": "dev",
+    "degradation": {
+      "level": "light",
+      "dpi": 150,
+      "rotation_deg": 0.7,
+      "rotate90": 0,
+      "noise_sigma": 0.0,
+      "blur": 0.5,
+      "contrast": 0.92,
+      "jpeg_quality": 84,
+      "salt_pepper": 0.0002
+    },
+    "expect_failure": false,
+    "expected_error": null,
+    "invoices": [
+      {
+        "invoice_number": "SI-26-01807",
+        "invoice_date": "2026-06-12",
+        "due_date": "2026-07-12",
+        "supplier_name": "Davies & Dunn Nursing Services Ltd",
+        "customer_name": "Clearview Surgical Limited",
+        "currency": "GBP",
+        "subtotal": "1038.12",
+        "tax": "207.62",
+        "discount": null,
+        "shipping": null,
+        "total": "1245.74",
+        "line_items": [
+          {
+            "description": "Caregiver hours - overnight",
+            "quantity": null,
+            "unit_price": null,
+            "amount": "399.20"
+          },
+          {
+            "description": "Personal care assistance (bathing and dressing)",
+            "quantity": null,
+            "unit_price": null,
+            "amount": "224.60"
+          },
+          {
+            "description": "Doctor home consultation",
+            "quantity": null,
+            "unit_price": null,
+            "amount": "414.32"
+          }
+        ],
+        "pages": [
+          1
+        ],
+        "sheet": null,
+        "row": null,
+        "anomalies": []
+      }
+    ]
+  },
+  {
+    "doc_id": "invoice_multi",
+    "file": "invoice_multi.pdf",
+    "file_type": "pdf",
+    "category": "multi_invoice_pdf",
+    "template": "mixed",
+    "split": "dev",
+    "degradation": null,
+    "expect_failure": false,
+    "expected_error": null,
+    "invoices": [
+      {
+        "invoice_number": "HC-INV-00985",
+        "invoice_date": "2026-08-08",
+        "due_date": "2026-09-07",
+        "supplier_name": "Highland Couriers Group LLC",
+        "customer_name": "Brookside Data Systems LLC",
+        "currency": "USD",
+        "subtotal": "4626.55",
+        "tax": "410.61",
+        "discount": null,
+        "shipping": null,
+        "total": "5037.16",
+        "line_items": [
+          {
+            "description": "Packaging materials",
+            "quantity": "5",
+            "unit_price": "3.29",
+            "amount": "16.45"
+          },
+          {
+            "description": "Medical supplies cold-chain transport",
+            "quantity": "18",
+            "unit_price": "86.95",
+            "amount": "1565.10"
+          },
+          {
+            "description": "Freight charges - 20ft container",
+            "quantity": "2",
+            "unit_price": "1522.50",
+            "amount": "3045.00"
+          }
+        ],
+        "pages": [
+          1
+        ],
+        "sheet": null,
+        "row": null,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "2026-FAC-7578",
+        "invoice_date": "2026-09-08",
+        "due_date": null,
+        "supplier_name": "Atelier Bérénice SARL",
+        "customer_name": "Clinique Sainte-Hélène S.A.",
+        "currency": "EUR",
+        "subtotal": "14868.62",
+        "tax": "1486.86",
+        "discount": null,
+        "shipping": null,
+        "total": "16355.48",
+        "line_items": [
+          {
+            "description": "Doctor home consultation",
+            "quantity": "1",
+            "unit_price": "104.50",
+            "amount": "104.50"
+          },
+          {
+            "description": "Lab sample collection at home",
+            "quantity": "18",
+            "unit_price": "30.50",
+            "amount": "549.00"
+          },
+          {
+            "description": "Caregiver hours - daytime",
+            "quantity": "8",
+            "unit_price": "27.69",
+            "amount": "221.52"
+          },
+          {
+            "description": "Caregiver hours - overnight",
+            "quantity": "12",
+            "unit_price": "28.50",
+            "amount": "342.00"
+          },
+          {
+            "description": "Care plan assessment",
+            "quantity": "1",
+            "unit_price": "148.50",
+            "amount": "148.50"
+          },
+          {
+            "description": "Wound care dressing change",
+            "quantity": "5",
+            "unit_price": "45.99",
+            "amount": "229.95"
+          },
+          {
+            "description": "Care plan assessment",
+            "quantity": "5",
+            "unit_price": "126.13",
+            "amount": "630.65"
+          },
+          {
+            "description": "Home nursing visit",
+            "quantity": "18",
+            "unit_price": "63.62",
+            "amount": "1145.16"
+          },
+          {
+            "description": "Lab sample collection at home",
+            "quantity": "8",
+            "unit_price": "27.00",
+            "amount": "216.00"
+          },
+          {
+            "description": "Physiotherapy session (60 min)",
+            "quantity": "6",
+            "unit_price": "76.84",
+            "amount": "461.04"
+          },
+          {
+            "description": "Wound care dressing change",
+            "quantity": "13",
+            "unit_price": "48.02",
+            "amount": "624.26"
+          },
+          {
+            "description": "Elderly companionship",
+            "quantity": "40",
+            "unit_price": "19.74",
+            "amount": "789.60"
+          },
+          {
+            "description": "Post-operative care visit",
+            "quantity": "11",
+            "unit_price": "76.95",
+            "amount": "846.45"
+          },
+          {
+            "description": "Dementia care support",
+            "quantity": "3",
+            "unit_price": "34.56",
+            "amount": "103.68"
+          },
+          {
+            "description": "Caregiver hours - daytime",
+            "quantity": "12",
+            "unit_price": "22.54",
+            "amount": "270.48"
+          },
+          {
+            "description": "Respite care",
+            "quantity": "6",
+            "unit_price": "25.89",
+            "amount": "155.34"
+          },
+          {
+            "description": "Dementia care support",
+            "quantity": "12",
+            "unit_price": "36.00",
+            "amount": "432.00"
+          },
+          {
+            "description": "Post-operative care visit",
+            "quantity": "10",
+            "unit_price": "67.80",
+            "amount": "678.00"
+          },
+          {
+            "description": "Physiotherapy session (60 min)",
+            "quantity": "1",
+            "unit_price": "72.78",
+            "amount": "72.78"
+          },
+          {
+            "description": "Physiotherapy session (60 min)",
+            "quantity": "13",
+            "unit_price": "89.76",
+            "amount": "1166.88"
+          },
+          {
+            "description": "Care plan assessment",
+            "quantity": "5",
+            "unit_price": "139.50",
+            "amount": "697.50"
+          },
+          {
+            "description": "Medication administration visit",
+            "quantity": "15",
+            "unit_price": "38.17",
+            "amount": "572.55"
+          },
+          {
+            "description": "Care plan assessment",
+            "quantity": "5",
+            "unit_price": "119.50",
+            "amount": "597.50"
+          },
+          {
+            "description": "Caregiver hours - daytime",
+            "quantity": "12",
+            "unit_price": "26.84",
+            "amount": "322.08"
+          },
+          {
+            "description": "Physiotherapy session (60 min)",
+            "quantity": "12",
+            "unit_price": "87.99",
+            "amount": "1055.88"
+          },
+          {
+            "description": "Post-operative care visit",
+            "quantity": "4",
+            "unit_price": "89.23",
+            "amount": "356.92"
+          },
+          {
+            "description": "Home nursing visit",
+            "quantity": "5",
+            "unit_price": "59.00",
+            "amount": "295.00"
+          },
+          {
+            "description": "Doctor home consultation",
+            "quantity": "1",
+            "unit_price": "102.50",
+            "amount": "102.50"
+          },
+          {
+            "description": "Physiotherapy session (60 min)",
+            "quantity": "21",
+            "unit_price": "77.00",
+            "amount": "1617.00"
+          },
+          {
+            "description": "Caregiver hours - overnight",
+            "quantity": "2",
+            "unit_price": "31.95",
+            "amount": "63.90"
+          }
+        ],
+        "pages": [
+          2,
+          3
+        ],
+        "sheet": null,
+        "row": null,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "BILL-95508",
+        "invoice_date": "2025-02-25",
+        "due_date": null,
+        "supplier_name": "Ahmed Stationery Mart Limited",
+        "customer_name": "Islam Medical Hall Enterprise",
+        "currency": "BDT",
+        "subtotal": "59070.00",
+        "tax": "4430.25",
+        "discount": "2953.50",
+        "shipping": null,
+        "total": "60546.75",
+        "line_items": [
+          {
+            "description": "Ballpoint pens, blue (pack of 50)",
+            "quantity": "1",
+            "unit_price": "1590.00",
+            "amount": "1590.00"
+          },
+          {
+            "description": "Visitor sign-in book",
+            "quantity": "7",
+            "unit_price": "1180.00",
+            "amount": "8260.00"
+          },
+          {
+            "description": "Toner cartridge, black",
+            "quantity": "5",
+            "unit_price": "9420.00",
+            "amount": "47100.00"
+          },
+          {
+            "description": "Envelopes DL (box of 500)",
+            "quantity": "1",
+            "unit_price": "2120.00",
+            "amount": "2120.00"
+          }
+        ],
+        "pages": [
+          4
+        ],
+        "sheet": null,
+        "row": null,
+        "anomalies": []
+      }
+    ]
+  },
+  {
+    "doc_id": "register_xlsx",
+    "file": "register.xlsx",
+    "file_type": "xlsx",
+    "category": "xlsx",
+    "template": "register",
+    "split": "dev",
+    "degradation": null,
+    "expect_failure": false,
+    "expected_error": null,
+    "invoices": [
+      {
+        "invoice_number": "378-0547",
+        "invoice_date": "2026-08-28",
+        "due_date": null,
+        "supplier_name": "Highland Medical Equipment Pty Ltd",
+        "customer_name": "Sosa Office Products Pty. Ltd.",
+        "currency": "AUD",
+        "subtotal": "1722.78",
+        "tax": "172.28",
+        "discount": null,
+        "shipping": null,
+        "total": "1895.06",
+        "line_items": [],
+        "pages": null,
+        "sheet": "Invoices",
+        "row": 6,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "974-1267",
+        "invoice_date": "2026-07-25",
+        "due_date": null,
+        "supplier_name": "Moyer Home Care Ltd.",
+        "customer_name": "Dr. Tracy Gomez",
+        "currency": "CAD",
+        "subtotal": "1099.36",
+        "tax": "54.97",
+        "discount": null,
+        "shipping": null,
+        "total": "1154.33",
+        "line_items": [],
+        "pages": null,
+        "sheet": "Invoices",
+        "row": 7,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "23286",
+        "invoice_date": "2025-04-07",
+        "due_date": null,
+        "supplier_name": "Herrera & Williams Data Systems Ltd.",
+        "customer_name": "Sunrise Office Products Ltd.",
+        "currency": "CAD",
+        "subtotal": "6693.87",
+        "tax": "334.69",
+        "discount": null,
+        "shipping": null,
+        "total": "7028.56",
+        "line_items": [],
+        "pages": null,
+        "sheet": "Invoices",
+        "row": 8,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "SI-25-00329",
+        "invoice_date": "2025-08-11",
+        "due_date": null,
+        "supplier_name": "Blue Harbor Software LLP",
+        "customer_name": "Hunter & Wyatt Shipping LLP",
+        "currency": "GBP",
+        "subtotal": "3016.67",
+        "tax": "603.33",
+        "discount": null,
+        "shipping": null,
+        "total": "3620.00",
+        "line_items": [],
+        "pages": null,
+        "sheet": "Invoices",
+        "row": 9,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "KH-INV-02699",
+        "invoice_date": "2025-03-18",
+        "due_date": null,
+        "supplier_name": "Keystone Home Care Pty. Ltd.",
+        "customer_name": "Orchard Shipping Pty Ltd",
+        "currency": "AUD",
+        "subtotal": "3323.55",
+        "tax": "332.36",
+        "discount": null,
+        "shipping": null,
+        "total": "3655.91",
+        "line_items": [],
+        "pages": null,
+        "sheet": "Invoices",
+        "row": 10,
+        "anomalies": []
+      }
+    ]
+  },
+  {
+    "doc_id": "register_xls",
+    "file": "register.xls",
+    "file_type": "xls",
+    "category": "xls",
+    "template": "register",
+    "split": "dev",
+    "degradation": null,
+    "expect_failure": false,
+    "expected_error": null,
+    "invoices": [
+      {
+        "invoice_number": "CP251980",
+        "invoice_date": "2025-04-06",
+        "due_date": null,
+        "supplier_name": "Crescent Paper Company Ltd",
+        "customer_name": "Watson Surgical Ltd",
+        "currency": "GBP",
+        "subtotal": "402.70",
+        "tax": "80.54",
+        "discount": null,
+        "shipping": null,
+        "total": "483.24",
+        "line_items": [],
+        "pages": null,
+        "sheet": "Register",
+        "row": 5,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "TS259703",
+        "invoice_date": "2025-06-20",
+        "due_date": null,
+        "supplier_name": "Taylor Shipping PLC",
+        "customer_name": "Hart & Slater Medical Supplies Limited",
+        "currency": "GBP",
+        "subtotal": "86.54",
+        "tax": "17.31",
+        "discount": null,
+        "shipping": null,
+        "total": "103.85",
+        "line_items": [],
+        "pages": null,
+        "sheet": "Register",
+        "row": 6,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "BB-01989",
+        "invoice_date": "2026-05-19",
+        "due_date": null,
+        "supplier_name": "Bolton & Barker Couriers PLC",
+        "customer_name": "Lumen Stationers Limited",
+        "currency": "GBP",
+        "subtotal": "1759.72",
+        "tax": "351.94",
+        "discount": null,
+        "shipping": null,
+        "total": "2111.66",
+        "line_items": [],
+        "pages": null,
+        "sheet": "Register",
+        "row": 7,
+        "anomalies": []
+      }
+    ]
+  },
+  {
+    "doc_id": "register_csv",
+    "file": "register.csv",
+    "file_type": "csv",
+    "category": "csv",
+    "template": "csv_comma_us",
+    "split": "dev",
+    "degradation": null,
+    "expect_failure": false,
+    "expected_error": null,
+    "invoices": [
+      {
+        "invoice_number": "SC-INV-09783",
+        "invoice_date": "2025-05-19",
+        "due_date": "2025-07-03",
+        "supplier_name": "Stewart Community Care Group LLC",
+        "customer_name": "Mrs. Morgan Parker",
+        "currency": "USD",
+        "subtotal": "401.90",
+        "tax": "24.11",
+        "discount": null,
+        "shipping": null,
+        "total": "426.01",
+        "line_items": [],
+        "pages": null,
+        "sheet": null,
+        "row": 2,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "905-2679",
+        "invoice_date": "2026-03-02",
+        "due_date": "2026-04-01",
+        "supplier_name": "Meadowbrook Data Systems Corp.",
+        "customer_name": "Vertex Pharma Corp.",
+        "currency": "USD",
+        "subtotal": "4300.10",
+        "tax": "268.76",
+        "discount": null,
+        "shipping": null,
+        "total": "4568.86",
+        "line_items": [],
+        "pages": null,
+        "sheet": null,
+        "row": 3,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "A-27421",
+        "invoice_date": "2025-02-07",
+        "due_date": null,
+        "supplier_name": "Nimbus Nursing Services Inc.",
+        "customer_name": "Dr. Samantha Madden",
+        "currency": "USD",
+        "subtotal": "680.28",
+        "tax": "60.37",
+        "discount": null,
+        "shipping": null,
+        "total": "740.65",
+        "line_items": [],
+        "pages": null,
+        "sheet": null,
+        "row": 4,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "INV22988",
+        "invoice_date": "2026-10-07",
+        "due_date": null,
+        "supplier_name": "Willow Creek IT Services Inc.",
+        "customer_name": "Miller & Sutton Shipping Inc.",
+        "currency": "USD",
+        "subtotal": "2030.90",
+        "tax": "180.24",
+        "discount": null,
+        "shipping": null,
+        "total": "2211.14",
+        "line_items": [],
+        "pages": null,
+        "sheet": null,
+        "row": 5,
+        "anomalies": []
+      },
+      {
+        "invoice_number": "INV-2025-7246",
+        "invoice_date": "2025-06-16",
+        "due_date": "2025-07-16",
+        "supplier_name": "Wilson Freight Co.",
+        "customer_name": "Vertex Medical Supplies Co.",
+        "currency": "USD",
+        "subtotal": "335.00",
+        "tax": "27.64",
+        "discount": null,
+        "shipping": null,
+        "total": "362.64",
+        "line_items": [],
+        "pages": null,
+        "sheet": null,
+        "row": 6,
+        "anomalies": []
+      }
+    ]
+  },
+  {
+    "doc_id": "corrupted",
+    "file": "corrupted.pdf",
+    "file_type": "pdf",
+    "category": "corrupted",
+    "template": "T1",
+    "split": "dev",
+    "degradation": null,
+    "expect_failure": true,
+    "expected_error": "corrupted_file",
+    "invoices": []
+  }
+]
