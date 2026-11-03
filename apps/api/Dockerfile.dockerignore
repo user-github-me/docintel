@@ -1,0 +1,8 @@
+**
+!apps/api/package.json
+!apps/api/package-lock.json
+!apps/api/nest-cli.json
+!apps/api/tsconfig*.json
+!apps/api/src/**
+!db/migrations/**
+apps/api/src/**/*.spec.ts
