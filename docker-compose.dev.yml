@@ -1,0 +1,19 @@
+# Local development: run postgres/redis/processor in Docker, the API and web app on the host.
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d postgres redis processor
+# The processor reads the host's ./storage (where the host API writes uploads) plus the
+# fixtures/eval data read-only for tests, and hot-reloads its source.
+services:
+  processor:
+    # Hot reload by default; for throughput tests use PROCESSOR_DEV_FLAGS="--workers 4"
+    command: ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port 8000 $${PROCESSOR_DEV_FLAGS:---reload --reload-dir /app/app}"]
+    environment:
+      OCR_CONCURRENCY: "6"
+      OCR_DENOISE: ${OCR_DENOISE:-scaled}
+      PROCESSOR_DEV_FLAGS: ${PROCESSOR_DEV_FLAGS:-}
+    volumes:
+      - ./storage:/data/storage
+      - ./fixtures:/data/storage/_fixtures:ro
+      - ./eval:/data/storage/_eval:ro
+      - ./services/processor/app:/app/app:ro
+      - ./services/processor/tests:/app/tests:ro
+      - models:/models

@@ -1,0 +1,139 @@
+name: docintel
+
+# Full stack: `docker compose up --build`  (web http://localhost:3000, API http://localhost:4000/docs)
+# Scale OCR/AI workers horizontally:  `docker compose up --build --scale worker=4`
+
+x-backend-env: &backend-env
+  NODE_ENV: production
+  DATABASE_URL: postgres://docintel:docintel@postgres:5432/docintel
+  REDIS_URL: redis://redis:6379
+  PROCESSOR_URL: http://processor:8000
+  STORAGE_DIR: /data/storage
+  API_KEYS: ${API_KEYS:-admin:dev-admin-key-change-me}
+  CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+  MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-200}
+  PAGE_CHUNK_SIZE: ${PAGE_CHUNK_SIZE:-16}
+  WORKER_CONCURRENCY_PAGES: ${WORKER_CONCURRENCY_PAGES:-4}
+  WORKER_CONCURRENCY_ANALYZE: ${WORKER_CONCURRENCY_ANALYZE:-6}
+  # AI extraction: auto = Azure OpenAI if configured, else Anthropic if configured, else rules only
+  LLM_PROVIDER: ${LLM_PROVIDER:-auto}
+  LLM_STRATEGY: ${LLM_STRATEGY:-fallback}
+  LLM_CONCURRENCY: ${LLM_CONCURRENCY:-4}
+  LLM_VISION_FALLBACK: ${LLM_VISION_FALLBACK:-true}
+  AZURE_OPENAI_BASE_URL: ${AZURE_OPENAI_BASE_URL:-}
+  AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
+  AZURE_OPENAI_DEPLOYMENT: ${AZURE_OPENAI_DEPLOYMENT:-gpt-6-astra}
+  AZURE_OPENAI_REASONING_EFFORT: ${AZURE_OPENAI_REASONING_EFFORT:-low}
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+  ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-opus-5-5}
+  ANTHROPIC_EFFORT: ${ANTHROPIC_EFFORT:-medium}
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: docintel
+      POSTGRES_PASSWORD: docintel
+      POSTGRES_DB: docintel
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docintel -d docintel"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7.4-alpine
+    # AOF persistence so queued jobs survive restarts; BullMQ requires noeviction.
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  processor:
+    build:
+      context: ./services/processor
+      target: runtime
+    environment:
+      STORAGE_DIR: /data/storage
+      WEB_CONCURRENCY: ${PROCESSOR_WORKERS:-4}
+      EMBEDDING_PROVIDER: ${EMBEDDING_PROVIDER:-fastembed}
+      FASTEMBED_CACHE_PATH: /models
+    volumes:
+      - storage:/data/storage
+      - models:/models
+    ports:
+      - "${PROCESSOR_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      <<: *backend-env
+      APP_ROLE: api
+      PORT: 4000
+    ports:
+      - "${API_PORT:-4000}:4000"
+    volumes:
+      - storage:/data/storage
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      processor: { condition: service_healthy }
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      <<: *backend-env
+      APP_ROLE: worker
+    volumes:
+      - storage:/data/storage
+    depends_on:
+      api: { condition: service_started }
+      processor: { condition: service_healthy }
+
+  web:
+    build: ./apps/web
+    environment:
+      API_URL: http://api:4000
+      API_KEY: ${WEB_API_KEY:-dev-admin-key-change-me}
+      WEB_BASIC_AUTH: ${WEB_BASIC_AUTH:-}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      api: { condition: service_started }
+
+  # Test runner for the processor (pytest incl. OCR tests): docker compose --profile test run --rm processor-test
+  processor-test:
+    profiles: ["test"]
+    build:
+      context: ./services/processor
+      target: test
+    volumes:
+      - ./fixtures:/fixtures:ro
+      - ./docs/test-results:/results
+    environment:
+      FIXTURES_DIR: /fixtures
+
+volumes:
+  pgdata:
+  redisdata:
+  storage:
+  models:

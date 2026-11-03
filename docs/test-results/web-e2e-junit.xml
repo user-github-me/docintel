@@ -1,0 +1,40 @@
+<testsuites id="" name="" tests="6" failures="0" skipped="0" errors="0" time="3.0810619999999997">
+<testsuite name="smoke.spec.ts" timestamp="2026-11-03T05:06:45.272Z" hostname="smoke" tests="6" failures="0" skipped="0" time="2.711" errors="0">
+<testcase name="dashboard loads with metrics, upload and system status" classname="smoke.spec.ts" time="0.382">
+<properties>
+<property name="serial" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="uploading through the UI processes the file" classname="smoke.spec.ts" time="0.881">
+<properties>
+<property name="serial" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="correcting the total re-runs validation" classname="smoke.spec.ts" time="0.54">
+<properties>
+<property name="serial" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="keyword search finds the uploaded invoice" classname="smoke.spec.ts" time="0.288">
+<properties>
+<property name="serial" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="cross-verify page renders" classname="smoke.spec.ts" time="0.26">
+<properties>
+<property name="serial" value="">
+</property>
+</properties>
+</testcase>
+<testcase name="documents page lists the upload and the proxy hides the API key" classname="smoke.spec.ts" time="0.36">
+<properties>
+<property name="serial" value="">
+</property>
+</properties>
+</testcase>
+</testsuite>
+</testsuites>

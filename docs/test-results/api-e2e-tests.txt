@@ -1,0 +1,25 @@
+PASS test/e2e/api.e2e-spec.ts (8.233 s)
+  security
+    ✓ health is public, everything else requires a valid API key (68 ms)
+    ✓ rejects unsupported, empty and executable uploads with reasons (12 ms)
+    ✓ validates input (unknown query params, bad UUIDs) (9 ms)
+  document pipeline
+    ✓ extracts a digital PDF invoice with evidence for every value (13 ms)
+    ✓ OCRs a scanned image (15 ms)
+    ✓ parses a spreadsheet register into one invoice per row (6 ms)
+    ✓ fails a corrupted file with a typed error and does not retry it (12 ms)
+    ✓ links byte-identical re-uploads to the original instead of reprocessing (12 ms)
+    ✓ serves page images and the original file (149 ms)
+    ✓ reprocesses failed jobs on request (1527 ms)
+    ✓ manual corrections: optimistic locking, audit trail, re-validation, approval rules (90 ms)
+    ✓ keyword and hybrid search find processed invoices (35 ms)
+    ✓ cross-verifies two documents (PDF/Excel register vs reference copy) (1537 ms)
+    ✓ reports operational stats and queue depth (13 ms)
+  live progress (SSE)
+    ✓ streams document events while processing (1544 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       15 passed, 15 total
+Snapshots:   0 total
+Time:        8.425 s, estimated 9 s
+Ran all test suites.

@@ -1,0 +1,33 @@
+# secrets — never commit
+.env
+.env.*
+!.env.example
+*CONFIDENTIAL*
+
+# dependencies / builds
+node_modules/
+dist/
+.next/
+out/
+coverage/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# runtime data
+storage/*
+!storage/.gitkeep
+eval/data/
+eval/data-small/
+eval/data-perf/
+eval/results/raw/
+apps/web/test-results/
+apps/web/playwright-report/
+*.log
+.DS_Store
+eval/cache/
+*.tsbuildinfo
+docs/media/*.webm
+apps/web/.playwright/
+eval/cache/
