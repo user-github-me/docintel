@@ -7,7 +7,7 @@ DocIntel turns invoices and receipts into validated, searchable data. It reads d
 1. Text is extracted. OCR handles scans, with measured preprocessing for poor image quality.
 2. Batch PDFs are split into individual invoices.
 3. Fields and line items are extracted by deterministic rules plus an LLM cascade with strict JSON output.
-4. Every AI value is grounded in the source, so nothing is invented.
+4. Every AI value must be found in the source document; values that can't be traced there are discarded.
 5. Totals, line items, dates and duplicates are validated, and uncertain records are routed to manual review.
 6. Results are stored in PostgreSQL with full-text and semantic search, cross-verified PDF vs PDF and PDF vs Excel, and exposed through a REST API and a Next.js review UI.
 
@@ -19,7 +19,7 @@ DocIntel turns invoices and receipts into validated, searchable data. It reads d
 | **Database schema** | [docs/DATABASE.md](docs/DATABASE.md): ER diagram and notes; SQL in [db/migrations](db/migrations/001_init.sql) |
 | **Evaluation report** | [docs/EVALUATION.md](docs/EVALUATION.md): measured accuracy, success/failure rates, latency, throughput |
 | **AI disclosure and prompts** | [docs/AI_DISCLOSURE.md](docs/AI_DISCLOSURE.md), [docs/prompts/](docs/prompts/) |
-| **Walkthrough** | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) (recording link and script) |
+| **Walkthrough video** | [Watch in the browser](https://user-github-me.github.io/docintel/media/walkthrough.mp4) (1 min 44 s, captioned); details and a narration script in [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) |
 | **API reference** | OpenAPI/Swagger at `http://localhost:4000/docs` once running |
 
 ## Results at a glance

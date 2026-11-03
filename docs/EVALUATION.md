@@ -17,7 +17,7 @@ Regenerate this file with `cd eval && uv run python make_report.py`.
 
 - **Every valid document was processed** (100.0% success, 0.0% failures), and every corrupted file ended with a clear, typed error.
 - **Hybrid extraction is 98.6% accurate at field level**, against 91.5% for rules only. The biggest gains are on layouts never seen in development (55.9% → 95.6%) and on heavily degraded scans (18.1% → 82.6%), where page images are sent to the model.
-- **Values are not invented.** The hallucination rate is 0.3%, because every AI value must be traceable to the document text.
+- **Values are grounded in the document.** Every AI value must be traceable to the document text; the hallucination rate (a value returned for a field that is not printed) is 0.3%.
 - **Review routing is safe.** 96.2% of invoices with any wrong value were sent to manual review (rules-only: 100.0%). Of 187 auto-accepted invoices, 99.5% were fully correct. The one exception is listed below.
 - **Cross-verification** found every injected mismatch and missing invoice, with no false mismatches, for both PDF vs Excel and PDF vs PDF.
 - **Scale.** A 1,000-page digital batch PDF is split into 388/388 invoices in under 3 s of server time. A 100-page scanned batch takes about 75 s on 4 OCR processes.

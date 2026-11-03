@@ -1,6 +1,6 @@
 # Walkthrough
 
-- **Automated recording:** [`docs/media/walkthrough.mp4`](media/walkthrough.mp4) (1 min 44 s, 1440×900). A captioned, silent screen recording of the working application in hybrid mode (Azure OpenAI cascade). It was recorded with Playwright against the running stack (`apps/web/e2e/walkthrough.spec.ts`) and shows upload with live progress, batch splitting, a corrupted file failing cleanly, review and correction with evidence highlighting, approval, keyword and semantic search, and PDF vs Excel cross-verification.
+- **Automated recording:** [watch in the browser](https://user-github-me.github.io/docintel/media/walkthrough.mp4), or open the file [`docs/media/walkthrough.mp4`](media/walkthrough.mp4) (1 min 44 s, 1440×900). A captioned, silent screen recording of the working application in hybrid mode (Azure OpenAI cascade). It was recorded with Playwright against the running stack (`apps/web/e2e/walkthrough.spec.ts`) and shows upload with live progress, batch splitting, a corrupted file failing cleanly, review and correction with evidence highlighting, approval, keyword and semantic search, and PDF vs Excel cross-verification.
 - **Screenshots:** [`docs/media/screenshots/`](media/screenshots/).
 
 ## Script for a narrated walkthrough (about 8 minutes)

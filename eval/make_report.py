@@ -69,7 +69,7 @@ def main():
         r0, r1 = runs["rules-only"], runs["hybrid-cascade"]
         w(f"- **Every valid document was processed** ({r1['documents']['success_rate']}% success, {r1['documents']['failure_rate']}% failures), and every corrupted file ended with a clear, typed error.")
         w(f"- **Hybrid extraction is {acc(r1, 'overall')}% accurate at field level**, against {acc(r0, 'overall')}% for rules only. The biggest gains are on layouts never seen in development ({acc(r0, 'split:heldout')}% → {acc(r1, 'split:heldout')}%) and on heavily degraded scans ({acc(r0, 'quality:heavy')}% → {acc(r1, 'quality:heavy')}%), where page images are sent to the model.")
-        w(f"- **Values are not invented.** The hallucination rate is {r1['abstention']['hallucination_rate']}%, because every AI value must be traceable to the document text.")
+        w(f"- **Values are grounded in the document.** Every AI value must be traceable to the document text; the hallucination rate (a value returned for a field that is not printed) is {r1['abstention']['hallucination_rate']}%.")
         w(f"- **Review routing is safe.** {r1['review_routing']['wrong_invoices_caught_by_review']}% of invoices with any wrong value were sent to manual review (rules-only: {r0['review_routing']['wrong_invoices_caught_by_review']}%). Of {r1['review_routing']['auto_accepted']} auto-accepted invoices, {r1['review_routing']['auto_accepted_precision']}% were fully correct. The one exception is listed below.")
         w(f"- **Cross-verification** found every injected mismatch and missing invoice, with no false mismatches, for both PDF vs Excel and PDF vs PDF.")
         if perf:
