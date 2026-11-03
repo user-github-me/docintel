@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/*
+  DocIntel design tokens: an auditor's desk.
+  Cool ledger paper, deep slate ink, ledger green for actions, and one signature
+  element: the amber highlighter that marks evidence on the scanned page.
+*/
+@theme {
+  --color-ink: #1d2b36;
+  --color-ink-soft: #3b4a55;
+  --color-muted: #5b6871;
+  --color-faint: #87939a;
+  --color-paper: #edf1f0;
+  --color-paper-deep: #e3e9e7;
+  --color-surface: #ffffff;
+  --color-line: #d3dbd9;
+  --color-line-soft: #e5eae9;
+  --color-ledger: #0f6e64;
+  --color-ledger-dark: #0a5048;
+  --color-ledger-soft: #e2f0ed;
+  --color-highlight: #f2c14e;
+  --color-highlight-soft: #fdf2cf;
+  --color-danger: #b23a31;
+  --color-danger-soft: #f8e5e3;
+  --color-warn: #8f5b00;
+  --color-warn-soft: #fbefd6;
+  --color-ok: #1d7a4e;
+  --color-ok-soft: #e1f2e8;
+  --color-info: #33608d;
+  --color-info-soft: #e4edf7;
+  --color-viewer: #2b353c;
+  --color-viewer-deep: #222b31;
+
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Charter", "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ledger);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-highlight-soft);
+  }
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+  .heading {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+  }
+  .field-input {
+    width: 100%;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    border-radius: 6px;
+    padding: 6px 9px;
+    color: var(--color-ink);
+    transition: border-color 120ms, box-shadow 120ms;
+  }
+  .field-input:hover {
+    border-color: #b9c5c2;
+  }
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-ledger);
+    box-shadow: 0 0 0 3px rgba(15, 110, 100, 0.14);
+  }
+  .field-input:disabled {
+    background: var(--color-paper);
+    color: var(--color-muted);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
