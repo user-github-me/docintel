@@ -1,0 +1,26 @@
+# Black-box API tests against the full docker compose stack (api + worker + processor + postgres + redis + web)
+PASS test/e2e/api.e2e-spec.ts (53.448 s)
+  security
+    ✓ health is public, everything else requires a valid API key (46 ms)
+    ✓ rejects unsupported, empty and executable uploads with reasons (10 ms)
+    ✓ validates input (unknown query params, bad UUIDs) (5 ms)
+  document pipeline
+    ✓ extracts a digital PDF invoice with evidence for every value (26 ms)
+    ✓ OCRs a scanned image (18 ms)
+    ✓ parses a spreadsheet register into one invoice per row (8 ms)
+    ✓ fails a corrupted file with a typed error and does not retry it (11 ms)
+    ✓ links byte-identical re-uploads to the original instead of reprocessing (15 ms)
+    ✓ serves page images and the original file (71 ms)
+    ✓ reprocesses failed jobs on request (1524 ms)
+    ✓ manual corrections: optimistic locking, audit trail, re-validation, approval rules (100 ms)
+    ✓ keyword and hybrid search find processed invoices (35 ms)
+    ✓ cross-verifies two documents (PDF/Excel register vs reference copy) (1529 ms)
+    ✓ reports operational stats and queue depth (16 ms)
+  live progress (SSE)
+    ✓ streams document events while processing (36366 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       15 passed, 15 total
+Snapshots:   0 total
+Time:        53.586 s
+Ran all test suites.

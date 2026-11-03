@@ -22,6 +22,22 @@ DocIntel turns invoices and receipts into validated, searchable data. It reads d
 | **Walkthrough** | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) (recording link and script) |
 | **API reference** | OpenAPI/Swagger at `http://localhost:4000/docs` once running |
 
+## Results at a glance
+
+These were measured end to end through the REST API on a labelled set of 133 documents and 362 invoices, with 2 of the 8 templates held out from development. Full report: [docs/EVALUATION.md](docs/EVALUATION.md).
+
+| | Rules only (no LLM) | Hybrid: rules + Azure OpenAI cascade |
+|---|---|---|
+| Valid documents processed | 100% | 100% |
+| Corrupted files handled gracefully | 100% | 100% |
+| Field accuracy, all fields | 91.5% | **98.6%** |
+| Field accuracy, held-out layouts | 55.9% | **95.6%** |
+| Field accuracy, heavily degraded scans | 18.1% | **82.6%** |
+| Hallucination rate (value where none is printed) | 0.6% | **0.3%** |
+| Line items F1 | 90.8% | **98.4%** |
+| Invoices with a wrong value sent to review | 100% | 96.2% (one missed umlaut) |
+| 1,000-page digital batch PDF | 2.8 s, 388/388 invoices split out correctly | (pipeline measured in rules-only mode) |
+
 ## Quick start (Docker)
 
 Requirements: Docker Desktop (about 6 GB free disk) and nothing else.
@@ -108,7 +124,7 @@ docs/               architecture, database, evaluation, AI disclosure, prompts, 
 
 ## Security notes
 
-- API-key authentication, compared in constant time, with the key name recorded as the audit actor. The web UI uses a server-side proxy, so the browser never holds a key.
+- API-key authentication, compared in constant time, with the key name recorded as the audit actor. The web UI uses a server-side proxy, so the browser never holds a key. **The proxy acts on behalf of whoever can reach the web app, so set `WEB_BASIC_AUTH` (or put SSO in front) for any non-local deployment.**
 - Uploads are screened (allowlist, size limits, executables). Files are stored under random names; downloads are forced to attachment with `nosniff`.
 - The processor guards against path traversal, decompression bombs and zip bombs.
 - Parameterised SQL, strict DTO validation, Helmet headers, CORS, rate limiting.

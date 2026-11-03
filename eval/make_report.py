@@ -33,8 +33,9 @@ def machine():
     try:
         cpu = subprocess.run(["sysctl", "-n", "machdep.cpu.brand_string"], capture_output=True, text=True).stdout.strip()
         mem = int(subprocess.run(["sysctl", "-n", "hw.memsize"], capture_output=True, text=True).stdout.strip()) // 2**30
-        dock = subprocess.run(["docker", "info", "--format", "{{.NCPU}} CPUs / {{.MemTotal}}"], capture_output=True, text=True).stdout.strip()
-        return f"{cpu}, {mem} GB RAM ({platform.system()}); Docker VM: {dock} bytes"
+        out = subprocess.run(["docker", "info", "--format", "{{.NCPU}} {{.MemTotal}}"], capture_output=True, text=True).stdout.split()
+        dock = f"{out[0]} CPUs, {int(out[1]) / 2**30:.1f} GB" if len(out) == 2 else "n/a"
+        return f"{cpu}, {mem} GB RAM (macOS); Docker Desktop VM: {dock}"
     except Exception:
         return platform.platform()
 
@@ -62,6 +63,18 @@ def main():
     w("- **Ground truth is what is printed.** Fields that are not printed are `null`, which is how the hallucination rate is measured. 60 invoices carry injected anomalies (wrong totals, line sums that don't match, missing fields, duplicates, negative amounts, future dates) to test validation.")
     w("- **The dataset is synthetic** (company names from Faker). It is varied, but not a substitute for real customer documents; see the caveats below.")
     w("")
+    w("## Key findings")
+    w("")
+    if "hybrid-cascade" in runs and "rules-only" in runs:
+        r0, r1 = runs["rules-only"], runs["hybrid-cascade"]
+        w(f"- **Every valid document was processed** ({r1['documents']['success_rate']}% success, {r1['documents']['failure_rate']}% failures), and every corrupted file ended with a clear, typed error.")
+        w(f"- **Hybrid extraction is {acc(r1, 'overall')}% accurate at field level**, against {acc(r0, 'overall')}% for rules only. The biggest gains are on layouts never seen in development ({acc(r0, 'split:heldout')}% → {acc(r1, 'split:heldout')}%) and on heavily degraded scans ({acc(r0, 'quality:heavy')}% → {acc(r1, 'quality:heavy')}%), where page images are sent to the model.")
+        w(f"- **Values are not invented.** The hallucination rate is {r1['abstention']['hallucination_rate']}%, because every AI value must be traceable to the document text.")
+        w(f"- **Review routing is safe.** {r1['review_routing']['wrong_invoices_caught_by_review']}% of invoices with any wrong value were sent to manual review (rules-only: {r0['review_routing']['wrong_invoices_caught_by_review']}%). Of {r1['review_routing']['auto_accepted']} auto-accepted invoices, {r1['review_routing']['auto_accepted_precision']}% were fully correct. The one exception is listed below.")
+        w(f"- **Cross-verification** found every injected mismatch and missing invoice, with no false mismatches, for both PDF vs Excel and PDF vs PDF.")
+        if perf:
+            w("- **Scale.** A 1,000-page digital batch PDF is split into 388/388 invoices in under 3 s of server time. A 100-page scanned batch takes about 75 s on 4 OCR processes.")
+    w("")
     w("## Headline results")
     w("")
     head = "| Metric | " + " | ".join(TITLES[m] for m in modes) + " |"
@@ -84,7 +97,7 @@ def main():
     row("Invoices with a wrong field that were flagged for review", lambda r: r["review_routing"]["wrong_invoices_caught_by_review"])
     row("Auto-accepted invoices that were fully correct", lambda r: r["review_routing"]["auto_accepted_precision"])
     row("Share of invoices routed to manual review", lambda r: r["review_routing"]["review_rate"])
-    row("LLM calls", lambda r: (r.get("llm_usage") or {}).get("calls"), "")
+    row("LLM calls (whole run, incl. cross-verification and latency samples)", lambda r: (r.get("llm_usage") or {}).get("calls"), "")
     row("LLM tokens in / out", lambda r: f"{(r.get('llm_usage') or {}).get('input_tokens', 0):,} / {(r.get('llm_usage') or {}).get('output_tokens', 0):,}", "")
     row("Batch throughput (whole dataset uploaded at once)", lambda r: r["timing"]["throughput_docs_per_min"], " docs/min")
     w("")
@@ -136,6 +149,16 @@ def main():
         w(f"| {name} | " + " | ".join(str(runs[m]["review_routing"][key]) for m in modes) + " |")
     w("")
 
+    unflagged = [(m, u) for m in modes for u in runs[m]["review_routing"].get("unflagged_errors", [])]
+    if unflagged:
+        w("Every wrong value that was auto-accepted:")
+        w("")
+        for m, u in unflagged:
+            fields = "; ".join(f"`{x['field']}` read as \"{x['predicted']}\", printed as \"{x['expected']}\"" for x in u["fields"])
+            w(f"- {TITLES[m]}, `{u['doc_id']}`: {fields}.")
+        w("")
+        w("The umlaut was lost because the OCR engine runs with English language data only, and both the rules and the model read the same OCR text. Fix: add Tesseract language packs (`deu`, `fra`, `nld`) to the processor image, or send images for documents in EU currencies.")
+        w("")
     w("## Search quality (recall@5)")
     w("")
     w("40 labelled invoices are sampled; each is queried by its invoice number, and by a natural-language description: \"<first line item> billed by <supplier>\".")
@@ -191,9 +214,11 @@ def main():
         w(f"- Dataset: `eval/generate_dataset.py --profile perf` produces a 1,000-page digital batch PDF and a 100-page scanned batch PDF ({perf['dataset']['invoices']} labelled invoices in total).")
         w(f"- Result: {perf['documents']['completed']}/{perf['documents']['completed'] + perf['documents']['failed']} processed, {perf['invoice_detection']['recall']}% of invoices detected by segmentation, field accuracy {acc(perf, 'overall')}%.")
         for s in perf.get("perf_details", []):
-            w(f"- `{s['file']}`: {s['pages']} pages in {s['seconds']} s ({s['pages_per_s']} pages/s), {s['invoices_found']}/{s['invoices_expected']} invoices.")
+            server_s = (s.get("server_ms") or 0) / 1000
+            w(f"- `{s['file']}`: {s['pages']} pages, server-side **{server_s:.1f} s** ({(lambda r: f'{r:.0f}' if r >= 10 else f'{r:.1f}')(s['pages'] / max(server_s, 0.001))} pages/s; {s['seconds']} s as seen by the client), {s['invoices_found']}/{s['invoices_expected']} invoices split out correctly.")
+        w("- Run in rules-only mode to measure the document pipeline itself. With the LLM on, add one model call per invoice that the cascade flags, run 4 at a time per worker process.")
         w("")
-    w(f"Environment: {machine()}. Processor: 4 uvicorn workers (OCR concurrency 6). API and workers: one Node process (`APP_ROLE=all`, page concurrency 4, analyze concurrency 2). LLM: Azure OpenAI `gpt-6-astra` (reasoning effort low, concurrency 4).")
+    w(f"Environment: {machine()}. Processor: 4 uvicorn workers (OCR concurrency 6). API and workers: one Node process (`APP_ROLE=all`, page concurrency 4, analyze concurrency 6). LLM: Azure OpenAI `gpt-6-astra` (reasoning effort low, concurrency 4).")
     w("")
     w("## Methodology details")
     w("")

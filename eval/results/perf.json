@@ -1,0 +1,100 @@
+{
+  "run": "perf",
+  "llm": {
+    "enabled": false,
+    "provider": null,
+    "model": null,
+    "strategy": "fallback"
+  },
+  "dataset": {
+    "documents": 2,
+    "invoices": 425
+  },
+  "documents": {
+    "completed": 2,
+    "failed": 0
+  },
+  "invoice_detection": {
+    "gt": 425,
+    "pred": 425,
+    "matched": 424,
+    "recall": 99.8
+  },
+  "fields": {
+    "overall": {
+      "invoice_number": {
+        "accuracy": 87.1,
+        "n": 425
+      },
+      "ALL": {
+        "accuracy": 89.5,
+        "n": 3825
+      },
+      "invoice_date": {
+        "accuracy": 99.3,
+        "n": 425
+      },
+      "due_date": {
+        "accuracy": 94.6,
+        "n": 425
+      },
+      "supplier_name": {
+        "accuracy": 91.1,
+        "n": 425
+      },
+      "customer_name": {
+        "accuracy": 73.9,
+        "n": 425
+      },
+      "currency": {
+        "accuracy": 92.7,
+        "n": 425
+      },
+      "subtotal": {
+        "accuracy": 85.2,
+        "n": 425
+      },
+      "tax": {
+        "accuracy": 93.4,
+        "n": 425
+      },
+      "total": {
+        "accuracy": 88.2,
+        "n": 425
+      }
+    }
+  },
+  "line_items": {
+    "tp": 24227,
+    "gt": 25395,
+    "pred": 24569,
+    "desc_ok": 20278
+  },
+  "timing": {
+    "by_category": {
+      "perf": {}
+    }
+  },
+  "perf_details": [
+    {
+      "file": "perf-digital-1000p.pdf",
+      "pages": 1000,
+      "ocr_pages": 0,
+      "seconds": 6.2,
+      "pages_per_s": 161.29,
+      "invoices_expected": 388,
+      "invoices_found": 388,
+      "server_ms": 2838
+    },
+    {
+      "file": "perf-scanned-100p.pdf",
+      "pages": 100,
+      "ocr_pages": 100,
+      "seconds": 76.4,
+      "pages_per_s": 1.31,
+      "invoices_expected": 37,
+      "invoices_found": 37,
+      "server_ms": 75462
+    }
+  ]
+}

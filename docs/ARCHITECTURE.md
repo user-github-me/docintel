@@ -167,8 +167,9 @@ Matched pairs are compared field by field (amounts within tolerance, dates, curr
 
 ## Scalability
 
-- **Large PDFs.** The ingest job plans 16-page chunks (8 for scanned PDFs), so a 1,000-page PDF becomes about 63 independent page jobs. The jobs spread across all worker replicas and processor processes. The parent analyze job runs once, when every chunk has finished (a BullMQ flow). Pages are upserted as they finish, and progress is visible live.
+- **Large PDFs.** The ingest job plans 16-page chunks (8 for scanned PDFs), so a 1,000-page PDF becomes about 63 independent page jobs. The jobs spread across all worker replicas and processor processes. The parent analyze job runs once, when every chunk has finished (a BullMQ flow). Pages are upserted as they finish, and progress is visible live. **Measured** (see [EVALUATION.md](EVALUATION.md#large-batch-pdfs-1000-pages)): a 1,000-page digital batch PDF is processed in **2.8 s** server-side, with all 388 invoices split out correctly. A 100-page scanned batch (127 MB) takes **75 s** on 4 OCR processes, at 1.3 pages/s. Pages are OCR'd independently, so OCR capacity is added by running more processor replicas (scaling beyond one machine was not benchmarked).
 - **Separate scaling.** API, workers and processor are stateless and scale on their own: `docker compose up --scale worker=4`, plus `PROCESSOR_WORKERS` uvicorn processes. Workers are I/O-bound (DB, LLM); the processor is CPU-bound (OCR).
+- **Priority lanes.** Spreadsheets and born-digital PDFs get a higher BullMQ priority than OCR-bound scans, so a large scanned batch does not hold up cheap documents. When the whole dataset was uploaded at once, the median time-to-result dropped from 86 s to 2.9 s.
 - **LLM throughput.** The LLM is called once per invoice, not per page, with a per-process concurrency cap (`LLM_CONCURRENCY`). The SDK retries 429 and 5xx with backoff. The cascade keeps cost proportional to document difficulty.
 - **Large files.** Files pass by storage key and are never re-uploaded between services. PDFs open lazily, page by page. Bulk inserts use `jsonb_to_recordset`.
 
